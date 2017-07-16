@@ -18,7 +18,10 @@ int main(int argc, char **argv){
 
   m3uFile = fopen(m3u, "r");
 
-  while();
-	 
+  while(); //use fgets
+
+  free(m3u);
+  free(directory);
+  fclose(m3uFile);
   return 0;
 }
