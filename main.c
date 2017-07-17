@@ -5,7 +5,7 @@
 #include <sys/stat.h>
 #include <unistd.h>
 
-char *separateString(char *input){
+char *separateString(char *input){//extracts file name from the absolute path given in file
   char *tok, *token = "/";
 
   int i = 0, length = 0, tokenCount = 0;
@@ -18,6 +18,7 @@ char *separateString(char *input){
 
   char *input2 = (char *) malloc((length+2) * sizeof(char));
 
+  //copy input to another string because strtok destroys the original string
   strcpy(input2,input);
 
   char *separatedString = (char *) malloc((length) * sizeof(char));
@@ -39,7 +40,7 @@ char *separateString(char *input){
   return separatedString;
 }
 
-char *checkBeginning(char *input){
+char *checkBeginning(char *input){//checks the beginning of each string to get rid of chars not needed for directory
   int a = 0, b = 0;
 
   while(a*b == 0){
@@ -60,13 +61,13 @@ char *checkBeginning(char *input){
 }
 
 int main(int argc, char **argv){
-  if(argc != 3){
+  if(argc != 3){//0: function, 1: m3u/music list file, 2: target directory to copy to
     printf("Requires two input arguments\n");
     return 1;
   }
 
   int sourceFileDesc, targetFileDesc, error, n;
-  char  *fileName;// = (char *) malloc(1024*sizeof(char));
+  char  *fileName;
   struct stat st;
 
   char *directory = (char *) malloc((strlen(argv[2])+1024) * sizeof(char));
@@ -93,7 +94,6 @@ int main(int argc, char **argv){
 
     fileName = separateString(m3uLine);
 
-
     printf("Copying: %s\n", m3uLine);
 
     strcpy(directory, argv[2]);
@@ -105,10 +105,11 @@ int main(int argc, char **argv){
     printf("Destination: %s\n\n", directory);
     //
 
-    sourceFileDesc = open(m3uLine, O_RDONLY);
-    targetFileDesc = open(directory, O_CREAT | O_WRONLY, S_IWUSR | S_IRUSR | S_IRGRP | S_IROTH | S_IXUSR | S_IXOTH);
+    sourceFileDesc = open(m3uLine, O_RDONLY); 
+    targetFileDesc = open(directory, O_CREAT | O_WRONLY, S_IWUSR | S_IRUSR | S_IRGRP | S_IROTH | S_IXUSR | S_IXOTH); //file is written as 644
+    
     stat(m3uLine, &st);
-    n = st.st_size;
+    n = st.st_size; //file size
 
     char *buffer = (char *) malloc(n*sizeof(char));
     error = read(sourceFileDesc, buffer, n);
@@ -125,16 +126,16 @@ int main(int argc, char **argv){
       return 1;
     }
 
-    memset(directory, '\0', strlen(argv[2])+1024);
-
     free(fileName);
     free(buffer);
+
     close(sourceFileDesc);
     close(targetFileDesc);
   }
   printf("Done.\n");
-  free(m3u);
 
+  free(m3u);
   fclose(m3uFile);
+
   return 0;
 }
