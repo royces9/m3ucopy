@@ -16,12 +16,12 @@ char *separateString(char *input){//extracts file name from the absolute path gi
     }
   }
 
-  char *input2 = (char *) malloc((length+2) * sizeof(char));
+  char *input2 = malloc((length+2) * sizeof(*input2));
 
   //copy input to another string because strtok destroys the original string
   strcpy(input2,input);
 
-  char *separatedString = (char *) malloc((length) * sizeof(char));
+  char *separatedString = malloc((length) * sizeof(*separatedString));
 
   input2[length+1] = 0;
 
@@ -70,10 +70,10 @@ int main(int argc, char **argv){
   char  *fileName;
   struct stat st;
 
-  char *directory = (char *) malloc((strlen(argv[2])+1024) * sizeof(char));
-  char *m3uLine = (char *) malloc(1024*sizeof(char));
+  char *directory = malloc((strlen(argv[2]) + 1024) * sizeof(*directory));
+  char *m3uLine = malloc(1024 * sizeof(*m3uLine));
 
-  char *m3u = (char *) malloc((strlen(argv[1])+2) * sizeof(char));
+  char *m3u = malloc((strlen(argv[1])+2) * sizeof(*m3u));
   strcpy(m3u, argv[1]);
 
   FILE *m3uFile;
@@ -111,7 +111,7 @@ int main(int argc, char **argv){
     stat(m3uLine, &st);
     n = st.st_size; //file size
 
-    char *buffer = (char *) malloc(n*sizeof(char));
+    char *buffer = malloc(n*sizeof(*buffer));
     error = read(sourceFileDesc, buffer, n);
 
     if(error == -1){
