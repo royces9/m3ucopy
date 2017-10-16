@@ -13,7 +13,7 @@ char *separateString(char *input, char delimiter){//extracts file name from the 
   int i = 0, length = 0, tokenCount = 0;
 
   for(length = 0; input[length]; length++){
-    if(input[length] == '/'){
+    if(input[length] == delimiter){
       tokenCount++;
     }
   }
