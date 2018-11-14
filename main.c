@@ -62,7 +62,6 @@ int main(int argc, char **argv) {
 
 	FILE *m3uFile = fopen(argv[1], "r");
 
-
 	strncpy(dest, argv[2], size);
 	char *dest_end = dest + strlen(dest);
 	
