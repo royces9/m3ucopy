@@ -8,7 +8,6 @@
 char *separateString(char *input, char delimiter) {
         int length = strlen(input);
 	int length2 = length;
-
 	//empty for
 	for(; (length2 > 0) && (input[length2] != delimiter); --length2);
 
