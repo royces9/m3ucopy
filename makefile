@@ -1,2 +1,2 @@
-m3ucpy:
-	gcc main.c -o m3ucpy
+m3ucpy: main.c
+	gcc main.c -g -o m3ucpy

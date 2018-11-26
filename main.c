@@ -4,6 +4,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 
+
 //extracts file name from the absolute path given in file
 char *separateString(char *input, char delimiter) {
         int length = strlen(input);
@@ -29,7 +30,7 @@ char *checkBeginning(char *input) {
 			*input++;
 			a = 0;
 		}
-
+		
 		if(!strchr("/~", input[0])) {
 			*input++;
 			b = 0;
@@ -60,7 +61,10 @@ int main(int argc, char **argv) {
 	char *begin_line = line;
 
 	FILE *m3uFile = fopen(argv[1], "r");
-
+	if(!m3uFile) {
+		printf("File does not exist.\n");
+		return 1;
+	}
 	strncpy(dest, argv[2], size);
 	char *dest_end = dest + strlen(dest);
 	
